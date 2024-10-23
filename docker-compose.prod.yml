@@ -7,6 +7,7 @@ services:
       - "80:80"
   node-app:
     environment:
+      # environment variables are set on Linux machine using export NODE_ENV=production
       - NODE_ENV=production
       - MONGO_USER=${MONGO_USER}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
