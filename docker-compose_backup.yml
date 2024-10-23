@@ -1,0 +1,14 @@
+version: "3"
+# this file same as command line: docker run -v D:\dock\node-docker\:/app -p 3000:3000 -d --name mynodeapp my-node-app-image:mynode
+services:
+  node-app:
+    # build from the current directory
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      # same as -v D:\dock\node-docker\:/app
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - PORT=3000

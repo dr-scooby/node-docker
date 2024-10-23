@@ -1,0 +1,11 @@
+version: "3"
+# this file same as command line: docker run -v D:\dock\node-docker\:/app -p 3000:3000 -d --name mynodeapp my-node-app-image:mynode
+# no volumes in prod, so no bind mount
+services:
+  nginx:
+    ports:
+      - "80:80"
+  node-app:
+    environment:
+      - NODE_ENV=production
+    command: node index.js

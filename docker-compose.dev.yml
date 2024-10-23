@@ -1,0 +1,22 @@
+version: "3"
+# this file same as command line: docker run -v D:\dock\node-docker\:/app -p 3000:3000 -d --name mynodeapp my-node-app-image:mynode
+services:
+  nginx:
+    ports:
+      - "3000:80"
+  node-app:
+    # volumes is the bind mount, in dev we can put the bind mount
+    volumes:
+      # same as -v D:\dock\node-docker\:/app
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGO_USER=root
+      - MONGO_PASSWORD=example
+      - SESSION_SECRET=secret
+    command: npm run dev
+  mongodb01:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example

@@ -1,0 +1,40 @@
+version: "3"
+# this file is the base docker compose, both dev and prod will use this first
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "3000:80"
+    # grab our conf and copy it to the volume, make it read only :ro
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  # node-app is the dns name as well
+  node-app:
+    # build from the current directory
+    build: .
+    # take out ports when using nginx
+    #ports:
+    # - "3000:3000"
+    environment:
+      - PORT=3000
+    # depends will be started first, so start the mongodb first
+    depends_on:
+      - mongodb01
+
+  # create mongo db container, it is any name we give it. Also, it becomes the DNS name in Docker, and use it in js files.
+  mongodb01:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    # make a persistent volume, give a name with : so mongo-db: and bind mount /data/db -> per mongo docs
+    volumes:
+      - mongo-db:/data/db
+
+  # redis is the dns name
+  redis:
+    image: redis
+
+# declare the volumes
+volumes:
+  mongo-db:
