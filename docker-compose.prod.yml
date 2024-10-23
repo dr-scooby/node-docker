@@ -8,4 +8,7 @@ services:
   node-app:
     environment:
       - NODE_ENV=production
+      - MONGO_USER=root
+      - MONGO_PASSWORD=example
+      - SESSION_SECRET=secret
     command: node index.js
